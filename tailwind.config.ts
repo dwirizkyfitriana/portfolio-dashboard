@@ -18,6 +18,7 @@ module.exports = {
     },
     extend: {
       colors: {
+        current: 'currentColor',
         'light-primary': '#4318FF',
         'dark-primary': '#7551FF',
         'dark-bg': '#0B1437',
