@@ -5,7 +5,8 @@ module.exports = {
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}'
+    './src/**/*.{ts,tsx}',
+    './@/**/*.{ts,tsx}'
   ],
   theme: {
     container: {
@@ -17,6 +18,16 @@ module.exports = {
     },
     extend: {
       colors: {
+        'light-primary': '#4318FF',
+        'dark-primary': '#7551FF',
+        'dark-bg': '#0B1437',
+        'dark-grey': '#A3AED0',
+        'dark-card-bg': '#111C44',
+        'light-text-primary': '#2B3674',
+        'white-10%': 'rgba(255, 255, 255, 0.10)',
+        'light-bg': '#F4F7FE',
+        'grey-700': '#707EAE',
+        // shadcn/ui
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
