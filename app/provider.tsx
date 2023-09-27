@@ -10,7 +10,7 @@ import { usePathname } from 'next/navigation'
 const Provider = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname()
 
-  const title = sidebarItems.filter((item) => item.href === pathname)[0].label
+  const title = sidebarItems.filter((item) => item.href === pathname).at(0)?.label
 
   return (
     <ThemeProvider attribute='class' defaultTheme='dark' disableTransitionOnChange>
@@ -19,7 +19,7 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
           <div className='grid grid-cols-[290px_1fr]'>
             <Sidebar />
             <div className='px-5 pt-12 bg-light-bg dark:bg-dark-bg'>
-              <PageHeader title={title} breadcrumb={title} />
+              <PageHeader title={title || 'Dashboard'} breadcrumb={title || 'Dashboard'} />
               <div className='mt-7'>{children}</div>
               <Footer />
             </div>

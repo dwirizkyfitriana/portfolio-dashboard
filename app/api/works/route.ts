@@ -1,5 +1,6 @@
 import { connectToDB } from '@/lib/db-connection'
-import { formatZodError, generateFilename, uploadImage } from '@/lib/utils'
+import { formatZodError, generateFilename } from '@/lib/utils'
+import { uploadImage } from '@/lib/upload-utils'
 import Work from '@/models/work.model'
 import { NextResponse } from 'next/server'
 import { ZodError } from 'zod'

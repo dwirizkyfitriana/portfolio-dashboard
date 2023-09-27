@@ -1,7 +1,6 @@
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 import { ZodError, ZodIssue } from 'zod'
-import cloudinary from 'cloudinary'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -29,13 +28,6 @@ export const isBase64 = (text: string) =>
     : /^data:image\/(?:png|jpeg|jpg|gif|bmp|ico|tiff);base64,(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(
         text
       )
-
-export const uploadImage = async (file: string, filename: string) => {
-  return await cloudinary.v2.uploader.upload(file, {
-    folder: 'portfolio',
-    public_id: filename
-  })
-}
 
 export const generateFilename = (title: string) =>
   `${title.replace(/\s/g, '_').toLowerCase()}_${+new Date()}`
