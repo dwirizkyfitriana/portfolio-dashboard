@@ -19,17 +19,8 @@ export const sidebarItems: Navigation[] = [
   }
 ]
 
-export const pathMapper = {
-  '/': {
-    title: 'Main Dashboard',
-    breadCrumb: 'Dashboard'
-  },
-  '/works': {
-    title: 'Works',
-    breadCrumb: 'Works'
-  },
-  '/works/new': {
-    title: 'New Works',
-    breadCrumb: 'Works / New'
-  }
-}
+export const pathMapper = new Map([
+  ['/', { title: 'Main Dashboard', breadCrumb: 'Dashboard' }],
+  ['/works', { title: 'Works', breadCrumb: 'Works' }],
+  ['/works/new', { title: 'New Works', breadCrumb: 'Works / New' }]
+])

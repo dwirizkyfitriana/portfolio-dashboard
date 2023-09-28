@@ -9,7 +9,7 @@ import Footer from '../molecules/Footer'
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname()
 
-  const pathMap = pathMapper[pathname as keyof typeof pathMapper]
+  const pathMap = pathMapper.get(pathname)
 
   const title = pathMap?.title || 'Main Dashboard'
   const breadcrumb = pathMap?.breadCrumb || 'Dashboard'
@@ -28,7 +28,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
           </div>
         </div>
       ) : (
-        { children }
+        <>{children}</>
       )}
     </>
   )
