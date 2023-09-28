@@ -1,11 +1,7 @@
-import React from 'react'
-
 const Footer = () => {
   return (
-    <div>
-      <h1 className='absolute bottom-5 text-light-text-primary dark:text-white'>
-        &copy; {new Date().getFullYear()} Dwi Fitriana. All Rights Reserved.
-      </h1>
+    <div className='absolute bottom-0 w-full text-light-text-primary dark:text-white py-5 p-3 flex items-center'>
+      <h1>&copy; {new Date().getFullYear()} Dwi Fitriana. All Rights Reserved.</h1>
     </div>
   )
 }

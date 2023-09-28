@@ -1,4 +1,4 @@
-import React from 'react'
+
 import ThemeToggle from './ThemeToggle'
 import Image from 'next/image'
 
