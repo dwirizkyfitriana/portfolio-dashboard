@@ -2,6 +2,7 @@ import { isBase64 } from '@/lib/utils'
 import { z } from 'zod'
 
 export const workSchema = z.object({
+  _id: z.string(),
   images: z
     .string()
     .trim()
@@ -23,10 +24,13 @@ export const workSchema = z.object({
     .trim()
     .min(1, { message: 'tech can not be an emtpy string!' })
     .array()
-    .nonempty({ message: 'tech can not be emtpy!' })
+    .nonempty({ message: 'tech can not be emtpy!' }),
+  status: z.enum(['Launched', 'Work in Progress'])
 })
 
-export const updateWorkSchema = workSchema
+export const addWorkSchema = workSchema.omit({ _id: true })
+
+export const updateWorkSchema = addWorkSchema
   .extend({
     images: z
       .array(

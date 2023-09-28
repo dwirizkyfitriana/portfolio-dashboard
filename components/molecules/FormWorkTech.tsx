@@ -8,9 +8,11 @@ import { faCircleXmark } from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useState } from 'react'
 
 const FormWorkTech = ({
-  setValue
+  setValue,
+  isLoading
 }: {
   setValue: (type: 'images' | 'tech', value: string[]) => void
+  isLoading?: boolean
 }) => {
   const [tech, setTech] = useState<string[]>([])
 
@@ -37,6 +39,7 @@ const FormWorkTech = ({
 
   useEffect(() => {
     setValue('tech', tech)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tech])
 
   return (
@@ -49,17 +52,20 @@ const FormWorkTech = ({
           {tech.map((item, index) => (
             <Badge key={index} className='relative py-2 px-3 group'>
               {item}
-              <div
-                className='absolute -top-2 right-0 cursor-pointer hidden group-hover:block'
-                onClick={() => removeTech(index)}
-              >
-                <FontAwesomeIcon className='[&>*]: text-red-500 text-sm' icon={faCircleXmark} />
-              </div>
+              {!isLoading && (
+                <div
+                  className='absolute -top-2 right-0 cursor-pointer hidden group-hover:block'
+                  onClick={() => removeTech(index)}
+                >
+                  <FontAwesomeIcon className='[&>*]: text-red-500 text-sm' icon={faCircleXmark} />
+                </div>
+              )}
             </Badge>
           ))}
         </div>
         <Input
           placeholder='Enter technologies, separate by semicolon (;)'
+          disabled={isLoading}
           onKeyDown={handleKeyDown}
         />
       </div>

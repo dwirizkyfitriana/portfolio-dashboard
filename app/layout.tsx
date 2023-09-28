@@ -2,8 +2,10 @@ import '@/style/globals.css'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import Provider from './provider'
 import { config } from '@fortawesome/fontawesome-svg-core'
+import ThemeProvider from '@/components/providers/ThemeProvider'
+import MainLayout from '@/components/organism/MainLayout'
+import TanstackProvider from '@/components/providers/TanstackProvider'
 
 config.autoAddCss = false
 
@@ -18,7 +20,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang='en' suppressHydrationWarning>
       <body className={inter.className}>
-        <Provider>{children}</Provider>
+        <TanstackProvider>
+          <ThemeProvider>
+            <MainLayout>{children}</MainLayout>
+          </ThemeProvider>
+        </TanstackProvider>
       </body>
     </html>
   )

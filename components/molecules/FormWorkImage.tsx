@@ -9,9 +9,11 @@ import { Input } from '../ui/input'
 import { imageToBase64 } from '@/lib/utils'
 
 const FormWorkImage = ({
-  setValue
+  setValue,
+  isLoading
 }: {
   setValue: (type: 'images' | 'tech', value: string[]) => void
+  isLoading?: boolean
 }) => {
   const [images, setImages] = useState<File[]>([])
   const [base64, setBase64] = useState<string[]>([])
@@ -77,12 +79,14 @@ const FormWorkImage = ({
             className='relative flex items-center justify-center gap-4 h-[100px] border-2 border-dashed rounded-2xl dark:border-white-10% cursor-pointer group'
             key={index}
           >
-            <div
-              className='absolute -top-2 -right-2 hidden group-hover:block'
-              onClick={() => removeImage(index)}
-            >
-              <FontAwesomeIcon icon={faCircleXmark} />
-            </div>
+            {!isLoading && (
+              <div
+                className='absolute -top-2 -right-2 hidden group-hover:block'
+                onClick={() => removeImage(index)}
+              >
+                <FontAwesomeIcon icon={faCircleXmark} />
+              </div>
+            )}
             <Image
               className='aspect-video object-cover w-full rounded-2xl'
               src={URL.createObjectURL(item)}
@@ -112,6 +116,7 @@ const FormWorkImage = ({
         multiple
         accept='image/jpeg, image/png'
         onChange={onImageChange}
+        disabled={isLoading}
       />
     </FormItem>
   )

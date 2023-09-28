@@ -4,7 +4,7 @@ import { uploadImage } from '@/lib/upload-utils'
 import Work from '@/models/work.model'
 import { NextResponse } from 'next/server'
 import { ZodError } from 'zod'
-import { workSchema } from '@/schema/work'
+import { addWorkSchema } from '@/schema/work'
 
 export const GET = async () => {
   try {
@@ -27,7 +27,7 @@ export const POST = async (req: Request) => {
 
     const body = await req.json()
 
-    const work = workSchema.parse(body)
+    const work = addWorkSchema.parse(body)
 
     const uploadPromise = work.images.map(async (image) => {
       const { url } = await uploadImage(image, generateFilename(work.title))
