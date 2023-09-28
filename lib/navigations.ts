@@ -18,3 +18,18 @@ export const sidebarItems: Navigation[] = [
     href: '/works'
   }
 ]
+
+export const pathMapper = {
+  '/': {
+    title: 'Main Dashboard',
+    breadCrumb: 'Dashboard'
+  },
+  '/works': {
+    title: 'Works',
+    breadCrumb: 'Works'
+  },
+  '/works/new': {
+    title: 'New Works',
+    breadCrumb: 'Works / New'
+  }
+}

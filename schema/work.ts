@@ -13,7 +13,11 @@ export const workSchema = z.object({
   title: z.string().trim().min(1, { message: 'title can not be emtpy!' }),
   subtitle: z.string().trim().min(1, { message: 'subtitle can not be emtpy!' }),
   desc: z.string().trim().min(1, { message: 'desc can not be emtpy!' }),
-  link: z.string().trim().min(1, { message: 'link can not be emtpy!' }),
+  link: z
+    .string()
+    .trim()
+    .min(1, { message: 'link can not be emtpy!' })
+    .startsWith('https://', { message: 'link must start with `https`' }),
   tech: z
     .string()
     .trim()
