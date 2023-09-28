@@ -177,7 +177,7 @@ const FormWork = () => {
                 disabled={isLoading}
               >
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger className='dark:bg-dark-bg'>
                     <SelectValue placeholder='Select status' />
                   </SelectTrigger>
                 </FormControl>
