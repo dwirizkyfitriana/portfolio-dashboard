@@ -25,7 +25,9 @@ export const workSchema = z.object({
     .min(1, { message: 'tech can not be an emtpy string!' })
     .array()
     .nonempty({ message: 'tech can not be emtpy!' }),
-  status: z.enum(['Launched', 'Work in Progress'])
+  status: z.enum(['Launched', 'Work in Progress'], {
+    required_error: 'status must be `Launched` or `Work in Progress`'
+  })
 })
 
 export const addWorkSchema = workSchema.omit({ _id: true })

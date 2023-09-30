@@ -5,8 +5,9 @@ import Work from '@/models/work.model'
 import { updateWorkSchema } from '@/schema/work'
 import { NextResponse } from 'next/server'
 import { ZodError } from 'zod'
+import { getServerSession } from 'next-auth'
 
-export const GET = async (req: Request, { params }: { params: { id: string } }) => {
+export const GET = async (_req: Request, { params }: { params: { id: string } }) => {
   try {
     await connectToDB()
 
@@ -25,6 +26,10 @@ export const GET = async (req: Request, { params }: { params: { id: string } }) 
 
 export const PATCH = async (req: Request, { params }: { params: { id: string } }) => {
   try {
+    const session = await getServerSession()
+    if (!session)
+      return NextResponse.json({ message: 'Unauthorize', statusCode: 401 }, { status: 401 })
+
     await connectToDB()
 
     const { id } = params
@@ -70,6 +75,10 @@ export const PATCH = async (req: Request, { params }: { params: { id: string } }
 
 export const DELETE = async (_req: Request, { params }: { params: { id: string } }) => {
   try {
+    const session = await getServerSession()
+    if (!session)
+      return NextResponse.json({ message: 'Unauthorize', statusCode: 401 }, { status: 401 })
+
     await connectToDB()
 
     const { id } = params

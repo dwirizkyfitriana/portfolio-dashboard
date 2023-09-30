@@ -3,16 +3,47 @@ import { formatZodError, generateFilename } from '@/lib/utils'
 import { uploadImage } from '@/lib/upload-utils'
 import Work from '@/models/work.model'
 import { NextResponse } from 'next/server'
-import { ZodError } from 'zod'
+import { ZodError, z } from 'zod'
 import { addWorkSchema } from '@/schema/work'
+import { getServerSession } from 'next-auth'
 
-export const GET = async () => {
+function validateAndParse(input: any, defaultValue = 1) {
+  const preprocess = z.string().regex(/^\d+$/).transform(Number).safeParse(input)
+  return preprocess.success ? preprocess.data : defaultValue
+}
+
+export const GET = async (req: Request) => {
   try {
     await connectToDB()
 
-    const works = await Work.find({})
+    const url = new URL(req.url)
+    const params = new URLSearchParams(url.search)
 
-    return NextResponse.json({ data: works, message: 'Success', statusCode: 200 }, { status: 200 })
+    const showcase = params.get('showcase') === 'true'
+
+    if (showcase) {
+      const works = await Work.aggregate([{ $sample: { size: 3 } }])
+      return NextResponse.json(
+        { data: works, message: 'Success', statusCode: 200 },
+        { status: 200 }
+      )
+    }
+
+    const page = z.number().parse(validateAndParse(params.get('page')))
+    const limit = z.number().parse(validateAndParse(params.get('limit'), 10))
+
+    const [works, total] = await Promise.all([
+      Work.find()
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .sort({ createdAt: -1 }),
+      Work.countDocuments()
+    ])
+
+    return NextResponse.json(
+      { data: { total, data: works, page, limit }, message: 'Success', statusCode: 200 },
+      { status: 200 }
+    )
   } catch (error) {
     return NextResponse.json(
       { message: 'failed to fetch all works', statusCode: 500 },
@@ -23,6 +54,10 @@ export const GET = async () => {
 
 export const POST = async (req: Request) => {
   try {
+    const session = await getServerSession()
+    if (!session)
+      return NextResponse.json({ message: 'Unauthorize', statusCode: 401 }, { status: 401 })
+
     await connectToDB()
 
     const body = await req.json()
