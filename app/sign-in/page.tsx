@@ -1,7 +1,12 @@
 import FormSignIn from '@/components/molecules/FormSignIn'
 import SignInImage from '@/components/molecules/SignInImage'
+import { getServerSession } from 'next-auth'
+import { redirect } from 'next/navigation'
 
-const SignIn = () => {
+const SignIn = async () => {
+  const session = await getServerSession()
+
+  if (session) redirect('/')
   return (
     <div className='grid grid-cols-2 h-max '>
       <div className='flex flex-col m-auto'>

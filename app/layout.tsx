@@ -6,6 +6,7 @@ import { config } from '@fortawesome/fontawesome-svg-core'
 import ThemeProvider from '@/components/providers/ThemeProvider'
 import MainLayout from '@/components/organism/MainLayout'
 import TanstackProvider from '@/components/providers/TanstackProvider'
+import SessionProvider from '@/components/providers/SessionProvider'
 
 config.autoAddCss = false
 
@@ -16,15 +17,17 @@ export const metadata: Metadata = {
   description: "Dashboard for Dwi Fitriana's Portfolio"
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='en' suppressHydrationWarning>
       <body className={inter.className}>
-        <TanstackProvider>
-          <ThemeProvider>
-            <MainLayout>{children}</MainLayout>
-          </ThemeProvider>
-        </TanstackProvider>
+        <SessionProvider>
+          <TanstackProvider>
+            <ThemeProvider>
+              <MainLayout>{children}</MainLayout>
+            </ThemeProvider>
+          </TanstackProvider>
+        </SessionProvider>
       </body>
     </html>
   )

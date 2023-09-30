@@ -1,18 +1,27 @@
 'use client'
 
 import { pathMapper } from '@/lib/navigations'
-import { usePathname } from 'next/navigation'
+import { redirect, usePathname } from 'next/navigation'
 import Sidebar from './Sidebar'
 import PageHeader from '../molecules/PageHeader'
 import Footer from '../molecules/Footer'
+import { useSession } from 'next-auth/react'
+import { useEffect } from 'react'
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
+  const { data: session } = useSession()
+
   const pathname = usePathname()
 
   const pathMap = pathMapper.get(pathname)
 
   const title = pathMap?.title || 'Main Dashboard'
   const breadcrumb = pathMap?.breadCrumb || 'Dashboard'
+
+  useEffect(() => {
+    if (session === undefined) return
+    if (pathname !== '/sign-in' && !session) redirect('/sign-in')
+  }, [pathname, session])
 
   return (
     <>

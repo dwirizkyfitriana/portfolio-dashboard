@@ -6,6 +6,9 @@ import * as z from 'zod'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
+import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 const formSchema = z.object({
   email: z.string().min(1, { message: 'Email can not be empty!' }).email('Email not valid!'),
@@ -13,6 +16,10 @@ const formSchema = z.object({
 })
 
 const FormLogin = () => {
+  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false)
+  const [errorMsg, setErrorMsg] = useState('')
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -21,8 +28,24 @@ const FormLogin = () => {
     }
   })
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log({ values })
+
+    setIsLoading(true)
+    const result = await signIn('credentials', {
+      ...values,
+      redirect: false
+    })
+    console.log({ result })
+
+    setIsLoading(false)
+
+    if (result?.error) {
+      setErrorMsg('Invalid Email or Password!')
+      return
+    }
+
+    router.push('/')
   }
   return (
     <Form {...form}>
@@ -36,7 +59,12 @@ const FormLogin = () => {
                 Email<span className='text-red-800'>*</span>
               </FormLabel>
               <FormControl>
-                <Input className='dark:bg-dark-bg' placeholder='mail@example.com' {...field} />
+                <Input
+                  className='dark:bg-dark-bg'
+                  placeholder='mail@example.com'
+                  {...field}
+                  disabled={isLoading}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -51,7 +79,13 @@ const FormLogin = () => {
                 Password<span className='text-red-800'>*</span>
               </FormLabel>
               <FormControl>
-                <Input className='dark:bg-dark-bg' placeholder='Enter your password' {...field} />
+                <Input
+                  className='dark:bg-dark-bg'
+                  type='password'
+                  placeholder='Enter your password'
+                  {...field}
+                  disabled={isLoading}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -60,9 +94,13 @@ const FormLogin = () => {
         <Button
           className='w-full text-white bg-light-primary hover:bg-dark-primary dark:bg-dark-primary dark:hover:bg-light-primary'
           type='submit'
+          isLoading={isLoading}
+          disabled={isLoading}
         >
           Submit
         </Button>
+
+        <p className='text-red-600 !mt-3 text-center'>{errorMsg}</p>
       </form>
     </Form>
   )

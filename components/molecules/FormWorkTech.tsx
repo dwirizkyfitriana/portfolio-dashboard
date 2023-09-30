@@ -22,7 +22,7 @@ const FormWorkTech = ({
     const target = event.target as HTMLInputElement
     const value = target.value
     if (!value) return
-    
+
     target.value = ''
 
     if (tech.includes(value)) return
