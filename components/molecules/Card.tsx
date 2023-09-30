@@ -1,29 +1,22 @@
+/* eslint-disable react/display-name */
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Image from 'next/image'
+import Link from 'next/link'
 
-const Card = () => {
+const Card = ({ title, imageUrl, body }: { title: string; imageUrl: string; body: string }) => {
   return (
     <div className='p-[21px] rounded-[20px] w-full bg-white dark:bg-dark-card-bg space-y-5'>
-      <Image
-        className='rounded-[18px] w-full'
-        src='/assets/images/card-placeholder.png'
-        alt=''
-        width={400}
-        height={300}
-      />
+      <Image className='rounded-[18px] w-full' src={imageUrl} alt='' width={400} height={300} />
 
-      <h1 className='text-lg font-bold'>Abstract Colors</h1>
+      <h1 className='text-lg font-bold'>{title}</h1>
 
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Provident adipisci, repellendus,
-        consequatur ipsum,
-      </p>
+      <p>{body.length > 100 ? body.substring(0, 100) + '...' : body}</p>
 
-      <h4 className='group cursor-pointer'>
+      <Link href='/' className='group cursor-pointer'>
         Learn More{' '}
         <FontAwesomeIcon className='ml-2 group-hover:animate-arrow' icon={faArrowRight} />
-      </h4>
+      </Link>
     </div>
   )
 }
