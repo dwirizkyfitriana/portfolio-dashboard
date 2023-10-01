@@ -1,6 +1,6 @@
 'use client'
 
-import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import Card from '../molecules/Card'
 import axios from 'axios'
 import { useEffect, useRef, useState } from 'react'
@@ -11,7 +11,6 @@ import CardSkeleton from '../molecules/CardSkeleton'
 
 const WorkCards = () => {
   const [count, setCount] = useState(0)
-  const queryClient = useQueryClient()
   const { data, fetchNextPage, isFetchingNextPage, isFetching } = useInfiniteQuery(
     ['works'],
     async ({ pageParam = 1 }) => {

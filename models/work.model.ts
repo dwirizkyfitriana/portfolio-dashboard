@@ -25,6 +25,12 @@ const WorkSchema = new Schema(
     tech: {
       type: [String],
       required: [true, 'tech can not be empty!']
+    },
+    status: {
+      type: String,
+      enum: ['Launched', 'Work in Progress'],
+      default: 'Launched',
+      required: [true, 'status can not be empty!']
     }
   },
   { timestamps: true }
