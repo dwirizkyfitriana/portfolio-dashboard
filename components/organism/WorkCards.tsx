@@ -41,6 +41,11 @@ const WorkCards = () => {
 
   const works = data?.pages.flatMap((work) => work)
 
+  if (works?.length === 0 && !isFetching)
+    return (
+      <h1 className='text-center font-bold text-2xl mt-48'>Data not available, please add work</h1>
+    )
+
   return (
     <div className='grid grid-cols-3 gap-5 max-md:grid-cols-2 max-sm:grid-cols-1'>
       {isFetching ? (
